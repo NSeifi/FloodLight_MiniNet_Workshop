@@ -1,0 +1,38 @@
+﻿curl -d '{"switch": "00:00:00:00:00:00:00:01", "name":"flow-mod-1", "priority":"32768", "in-port":"1","active":"true", "actions":"output=2"}' http://<controller_ip>:8080/wm/staticflowpusher/json
+
+http://<controller_ip>:8080/wm/staticflowpusher/list/<switch>/json for all switch use "all" "staticflowentrypusher"old! "staticflowpusher"new!
+
+shortest path:
+http://<cotoroller_IP>:8080/wm/topology/route/src_id/src_port/dst_id/dst_port/json
+
+لیست جریان های سویچ:
+curl http://<controller_ip>:8080/wm/core/switch/1/flow/json;
+حذف جریان:
+curl -X DELETE -d '{"name":"flow-mod-1"}' http://<controller_ip>:8080/wm/staticflowentrypusher/json
+
+
+First of all I enable the firewall
+
+http://localhost:8080/wm/firewall/module/enable/json
+
+then I watch for all switches connected, and register the dipd 
+http://localhost:8080/wm/core/controller/switches/json
+
+Then I add all switches rule to the firewall with 
+http://localhost:8080/wm/firewall/rules/json 
+{"switchid": "here I put the dipd"}
+
+
+Then I want to remove one switch, so I see all rules with 
+http://localhost:8080/wm/firewall/rules/json
+
+Delete all with 
+
+http://localhost:8080/wm/firewall/rules/json 
+{"ruleid":"here I put the rule id"}
+
+and then add again all rules less the one switch I don't want
+http://localhost:8080/wm/firewall/rules/json 
+{"switchid": "here I put the dipd"}
+
+
